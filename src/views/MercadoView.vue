@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useAuth } from '@/composables/useAuth'
-import axios from 'axios'
+import api from '@/services/api'
 import TabelaAcoes from '@/components/TabelaAcoes.vue'
 import ModalAdicionarAcao from '@/components/ModalAdicionarAcao.vue'
 import ModalComprarAcao from '@/components/ModalComprarAcao.vue'
@@ -23,13 +23,6 @@ const mostrarModalAdicionar = ref(false)
 const acoesDisponiveisParaAdicionar = ref([])
 const carregandoListaDisponiveis = ref(false)
 
-// URL base do seu servidor local
-const API_URL = 'http://localhost:3000' 
-
-const getAuthConfig = () => ({
-  headers: { Authorization: `Bearer ${token.value}` }
-})
-
 // Função auxiliar para rastrear mudanças de preço (efeito piscar)
 const dispararEfeitoPiscar = (novasAcoes) => {
   celulasAlteradas.value.clear()
@@ -45,7 +38,7 @@ const dispararEfeitoPiscar = (novasAcoes) => {
 // 1. Carregar dados iniciais do mercado (Bate no seu /mercado/ListaAcoesInteresse)
 const carregarDadosMercado = async () => {
   try {
-    const response = await axios.get(`${API_URL}/mercado/ListaAcoesInteresse`, getAuthConfig())
+    const response = await api.get('/mercado/ListaAcoesInteresse')
     
     horarioSistema.value = response.data.horaNegociacao
     listaAcoes.value = response.data.acoes || []
@@ -61,7 +54,7 @@ const handleAvancarTempo = async (minutos) => {
   carregandoTempo.value = true
   
   try {
-    const response = await axios.post(`${API_URL}/mercado/AvancaTempo`, { incrementoMinutos: minutos }, getAuthConfig())
+    const response = await api.post('/mercado/AvancaTempo', { incrementoMinutos: minutos })
     
     horarioSistema.value = response.data.novaHoraNegociacao
     
@@ -84,7 +77,7 @@ const abrirModalSelecaoAcoes = async () => {
   mostrarModalAdicionar.value = true
   carregandoListaDisponiveis.value = true
   try {
-    const response = await axios.get(`${API_URL}/mercado/acoes-disponiveis`, getAuthConfig())
+    const response = await api.get('/mercado/acoes-disponiveis')
     acoesDisponiveisParaAdicionar.value = response.data
   } catch (error) {
     console.error('Erro ao buscar ações do mercado:', error)
@@ -96,7 +89,7 @@ const abrirModalSelecaoAcoes = async () => {
 // 4. Salvar ação selecionada na modal (Bate no seu /mercado/AdicionaAcaoInteresse)
 const handleAdicionarAcaoPorCodigo = async (codigo) => {
   try {
-    const response = await axios.post(`${API_URL}/mercado/AdicionaAcaoInteresse`, { codigo }, getAuthConfig())
+    const response = await api.post('/mercado/AdicionaAcaoInteresse', { codigo })
     
     listaAcoes.value = response.data.acoes
     horarioSistema.value = response.data.horaNegociacao
@@ -111,9 +104,8 @@ const handleAdicionarAcaoPorCodigo = async (codigo) => {
 // 5. Deletar ação da listagem (Bate no seu /mercado/RemoveAcaoInteresse)
 const handleRemoverAcao = async (codigoAcao) => {
   try {
-    const response = await axios.delete(`${API_URL}/mercado/RemoveAcaoInteresse`, {
-      data: { codigo: codigoAcao },
-      ...getAuthConfig()
+    const response = await api.delete('/mercado/RemoveAcaoInteresse', {
+      data: { codigo: codigoAcao }
     })
     
     listaAcoes.value = response.data.acoes
@@ -132,7 +124,7 @@ const abrirModalCompra = (acao) => {
 
 const handleConfirmarCompra = async (dadosOrdem, finalizarLoading) => {
   try {
-    const response = await axios.post(`${API_URL}/ordem/comprar-acao`, dadosOrdem, getAuthConfig())
+    const response = await api.post('/ordem/comprar-acao', dadosOrdem)
     
     alert(response.data.message || 'Ordem de compra enviada com sucesso!')
     mostrarModalCompra.value = false
