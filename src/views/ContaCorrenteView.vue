@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { onMounted, ref, computed } from 'vue'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
-import axios from 'axios'
+import api from '@/services/api'
 import ModalSimularLancamento from '@/components/ModalSimularLancamento.vue'
 
 const router = useRouter()
@@ -17,12 +17,6 @@ const carregando = ref(false)
 // Modal
 const mostrarModal = ref(false)
 const tipoModal = ref('deposito') // 'deposito' | 'retirada'
-
-const API_URL = 'http://localhost:3000'
-
-const getAuthConfig = () => ({
-  headers: { Authorization: `Bearer ${token.value}` }
-})
 
 // --- COMPUTED ---
 // Os lançamentos retornados pela API vêm em ordem cronológica (mais antigo primeiro).
@@ -59,7 +53,7 @@ const formatarDataHora = (dataHora) => {
 const carregarExtrato = async () => {
   carregando.value = true
   try {
-    const response = await axios.get(`${API_URL}/conta-corrente`, getAuthConfig())
+    const response = await api.get('/conta-corrente')
     lancamentos.value = response.data || []
   } catch (error) {
     showError(error.response?.data?.error || 'Erro ao carregar o extrato da conta corrente.')
@@ -79,12 +73,12 @@ const abrirModalRetirada = () => {
 }
 
 const handleConfirmarLancamento = async (dados, finalizarLoading) => {
-  const endpoint = tipoModal.value === 'deposito'
-    ? `${API_URL}/conta-corrente/deposito`
-    : `${API_URL}/conta-corrente/retirada`
+  const url = tipoModal.value === 'deposito'
+    ? '/conta-corrente/deposito'
+    : '/conta-corrente/retirada'
 
   try {
-    await axios.post(endpoint, dados, getAuthConfig())
+    await api.post(url, dados)
     showSuccess(
       tipoModal.value === 'deposito'
         ? 'Depósito registrado com sucesso!'
