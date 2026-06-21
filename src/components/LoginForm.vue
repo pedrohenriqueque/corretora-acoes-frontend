@@ -32,12 +32,6 @@ const onSubmit = async () => {
     return
   }
 
-  if (!verificaSenhaValida(form.senha)) {
-    const msg = 'A senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.'
-    errorMessage.value = msg
-    showErrorToast(msg)
-    return
-  }
 
   try {
     await login(form.email, form.senha)
