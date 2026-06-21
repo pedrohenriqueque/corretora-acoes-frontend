@@ -6,6 +6,8 @@ import axios from 'axios'
 import TabelaAcoes from '@/components/TabelaAcoes.vue'
 import ModalAdicionarAcao from '@/components/ModalAdicionarAcao.vue'
 import ModalComprarAcao from '@/components/ModalComprarAcao.vue'
+import FooterComponent from '@/components/FooterComponent.vue'
+import HeaderComponent from '@/components/HeaderComponent.vue'
 
 const router = useRouter()
 const { user, token, logout } = useAuth()
@@ -158,28 +160,7 @@ const handleLogout = () => {
 <template>
   <div class="min-h-screen bg-black text-white flex flex-col justify-between font-sans antialiased relative">
 
-    <header class="border-b border-zinc-800 bg-black/90 backdrop-blur-md px-6 py-4">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <div class="flex items-center gap-3">
-            <span class="h-9 w-9 rounded-xl bg-green-500 flex items-center justify-center">
-              <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-            </span>
-            <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">BolsaSim</span>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <router-link to="/carteira" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#090e0c] border border-green-900/40 hover:border-green-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all">Minha Carteira</router-link>
-            <router-link to="/conta-corrente" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#090e0c] border border-green-900/40 hover:border-green-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all">Conta Corrente</router-link>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-slate-400 font-medium" v-if="user">Olá, {{ user.nome }}</span>
-          <button @click="handleLogout" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg border border-slate-800 hover:text-white transition-all cursor-pointer">Sair</button>
-        </div>
-      </div>
-    </header>
+    <HeaderComponent></HeaderComponent>
 
     <div class="bg-[#050706] border-b border-zinc-900 px-6 py-3">
       <div class="max-w-6xl mx-auto flex items-center justify-between">
@@ -229,8 +210,6 @@ const handleLogout = () => {
       @confirmar="handleConfirmarCompra"
     />
 
-    <footer class="border-t border-slate-900 py-6 px-6 text-center text-xs text-slate-600 bg-slate-950/40">
-      &copy; 2026 BolsaSim. Todos os direitos reservados.
-    </footer>
+    <FooterComponent></FooterComponent>    
   </div>
 </template>
