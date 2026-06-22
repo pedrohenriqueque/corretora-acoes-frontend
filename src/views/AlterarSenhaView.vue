@@ -15,7 +15,6 @@ const carregando = ref(false)
 const mensagemSucesso = ref('')
 const mensagemErro = ref('')
 
-// Estados para controlar a visibilidade de cada campo individualmente
 const verSenhaAtual = ref(false)
 const verNovaSenha = ref(false)
 const verNovaSenhaRepetida = ref(false)
@@ -25,6 +24,14 @@ const form = reactive({
   novaSenha: '',
   novaSenhaRepetida: ''
 })
+
+const handleVoltar = () => {
+  if (window.history.state && window.history.state.back) {
+    router.back()
+  } else {
+    router.push('/mercado')
+  }
+}
 
 const handleAlterarSenha = async () => {
   mensagemErro.value = ''
@@ -58,6 +65,7 @@ const handleAlterarSenha = async () => {
     form.novaSenhaRepetida = ''
     
     setTimeout(() => {
+      // Após sucesso, o redirecionamento fixo para a dashboard faz sentido
       router.push('/mercado')
     }, 2000)
   } catch (error) {
@@ -153,9 +161,13 @@ const handleAlterarSenha = async () => {
           </div>
 
           <div class="flex items-center justify-end gap-3 pt-2">
-            <router-link to="/mercado" class="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold rounded-lg transition-colors text-center decoration-none">
+            <button 
+              type="button" 
+              @click="handleVoltar" 
+              class="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold rounded-lg transition-colors text-center border-none cursor-pointer"
+            >
               Voltar
-            </router-link>
+            </button>
             <button 
               type="submit" 
               :disabled="carregando"

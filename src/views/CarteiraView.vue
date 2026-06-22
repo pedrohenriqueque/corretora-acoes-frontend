@@ -5,6 +5,8 @@ import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import api from '@/services/api'
 import ModalVenderAcao from '@/components/ModalVenderAcao.vue'
+import FooterComponent from '@/components/FooterComponent.vue'
+import MenuUsuario from '@/components/MenuUsuario.vue'
 
 const router = useRouter()
 const { user, token, logout } = useAuth()
@@ -137,7 +139,8 @@ const handleLogout = () => {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
             </span>
-            <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">BolsaSim</span>
+            <span
+              class="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">BolsaSim</span>
           </div>
           <span class="text-zinc-700 text-xl font-light select-none">|</span>
           <span class="text-white font-semibold text-base tracking-tight">Carteira</span>
@@ -163,25 +166,26 @@ const handleLogout = () => {
 
         <!-- Navigation + user -->
         <div class="flex items-center gap-3 flex-shrink-0">
-          <button @click="router.push('/mercado')"
-            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-500 text-slate-300 hover:text-white text-xs font-medium transition-all cursor-pointer">
-            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <router-link to="/mercado"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#090e0c] border border-green-900/40 hover:border-green-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all decoration-none">
+            <svg class="h-3.5 w-3.5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             Voltar para o Mercado
-          </button>
-          <button @click="router.push('/conta-corrente')"
-            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-500 text-slate-300 hover:text-white text-xs font-medium transition-all cursor-pointer">
+          </router-link>
+
+          <router-link to="/conta-corrente"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#090e0c] border border-green-900/40 hover:border-green-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all decoration-none">
             Ir para Conta Corrente
-            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg class="h-3.5 w-3.5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
-          </button>
-          <span class="text-sm text-slate-400 font-medium ml-1" v-if="user">{{ user.nome }}</span>
-          <button @click="handleLogout"
-            class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg border border-slate-800 hover:text-white transition-all cursor-pointer">
-            Sair
-          </button>
+          </router-link>
+
+          <span class="text-zinc-800 text-sm select-none mx-1">|</span>
+          <MenuUsuario />
         </div>
       </div>
     </header>
@@ -192,8 +196,10 @@ const handleLogout = () => {
 
         <!-- Valor da Carteira -->
         <div class="flex items-center gap-4 bg-zinc-950 border border-zinc-800/60 rounded-xl px-5 py-4">
-          <div class="h-12 w-12 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <div
+            class="h-12 w-12 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+            <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
             </svg>
@@ -202,7 +208,8 @@ const handleLogout = () => {
             <div class="flex items-center gap-1.5 mb-0.5">
               <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Valor da Carteira</p>
               <svg class="h-3 w-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <p class="text-2xl font-bold text-white tracking-tight leading-none">
@@ -217,22 +224,23 @@ const handleLogout = () => {
         <div class="flex items-center gap-4 bg-zinc-950 border border-zinc-800/60 rounded-xl px-5 py-4">
           <div :class="['h-12 w-12 rounded-2xl flex items-center justify-center flex-shrink-0 border',
             ganhoPerdaTotal >= 0 ? 'bg-green-500/10 border-green-500/20' : 'bg-rose-500/10 border-rose-500/20']">
-            <svg :class="['h-6 w-6', ganhoPerdaTotal >= 0 ? 'text-green-400' : 'text-rose-400']"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                :d="ganhoPerdaTotal >= 0
-                  ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
-                  : 'M13 17H5m0 0V9m0 8l8-8 4 4 6-6'" />
+            <svg :class="['h-6 w-6', ganhoPerdaTotal >= 0 ? 'text-green-400' : 'text-rose-400']" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" :d="ganhoPerdaTotal >= 0
+                ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
+                : 'M13 17H5m0 0V9m0 8l8-8 4 4 6-6'" />
             </svg>
           </div>
           <div>
             <div class="flex items-center gap-1.5 mb-0.5">
               <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Ganho / Perda Total</p>
               <svg class="h-3 w-3 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <p :class="['text-2xl font-bold tracking-tight leading-none', ganhoPerdaTotal >= 0 ? 'text-green-400' : 'text-rose-400']">
+            <p
+              :class="['text-2xl font-bold tracking-tight leading-none', ganhoPerdaTotal >= 0 ? 'text-green-400' : 'text-rose-400']">
               <span v-if="carregando" class="text-zinc-600 animate-pulse text-lg">Carregando...</span>
               <span v-else>{{ ganhoPerdaTotal < 0 ? '-' : '' }}{{ formatarMoeda(Math.abs(ganhoPerdaTotal)) }}</span>
             </p>
@@ -257,8 +265,8 @@ const handleLogout = () => {
       <!-- Loading -->
       <div v-if="carregando" class="flex flex-col items-center justify-center py-24 gap-4">
         <svg class="h-8 w-8 text-green-500 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
         <p class="text-sm text-zinc-500">Carregando sua carteira...</p>
       </div>
@@ -267,7 +275,8 @@ const handleLogout = () => {
       <div v-else-if="posicoes.length === 0" class="flex flex-col items-center justify-center py-24 gap-3">
         <div class="h-16 w-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-2">
           <svg class="h-8 w-8 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
           </svg>
         </div>
         <p class="text-base font-semibold text-zinc-400">Sua carteira está vazia</p>
@@ -284,21 +293,22 @@ const handleLogout = () => {
           <thead>
             <tr class="border-b border-zinc-800 bg-zinc-950/60">
               <th class="text-left px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">Ticker</th>
-              <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">Quantidade</th>
-              <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider whitespace-nowrap">Preço Médio (R$)</th>
-              <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider whitespace-nowrap">Preço Atual (R$)</th>
+              <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">Quantidade
+              </th>
+              <th
+                class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider whitespace-nowrap">
+                Preço Médio (R$)</th>
+              <th
+                class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider whitespace-nowrap">
+                Preço Atual (R$)</th>
               <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">G/P (R$)</th>
               <th class="text-right px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">G/P (%)</th>
               <th class="text-center px-5 py-3.5 text-xs font-bold text-zinc-500 uppercase tracking-wider">Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="posicao in posicoes"
-              :key="posicao.codigo"
-              :class="['border-b border-zinc-900/80 transition-all duration-300',
-                celulasAlteradas.has(posicao.codigo) ? 'bg-zinc-800/40' : 'hover:bg-zinc-900/30']"
-            >
+            <tr v-for="posicao in posicoes" :key="posicao.codigo" :class="['border-b border-zinc-900/80 transition-all duration-300',
+              celulasAlteradas.has(posicao.codigo) ? 'bg-zinc-800/40' : 'hover:bg-zinc-900/30']">
               <!-- Ticker -->
               <td class="px-5 py-4">
                 <span class="font-bold text-white tracking-wide">{{ posicao.codigo }}</span>
@@ -323,10 +333,9 @@ const handleLogout = () => {
               <!-- G/P R$ -->
               <td :class="['px-5 py-4 text-right font-mono font-semibold',
                 posicao.ganho_perda >= 0 ? 'text-green-400' : 'text-rose-400']">
-                {{ posicao.ganho_perda < 0 ? '-' : '' }}{{ formatarMoeda(Math.abs(posicao.ganho_perda)) }}
-              </td>
+                {{ posicao.ganho_perda < 0 ? '-' : '' }}{{ formatarMoeda(Math.abs(posicao.ganho_perda)) }} </td>
 
-              <!-- G/P % -->
+                  <!-- G/P % -->
               <td :class="['px-5 py-4 text-right font-semibold',
                 posicao.ganho_perda >= 0 ? 'text-green-400' : 'text-rose-400']">
                 {{
@@ -338,10 +347,8 @@ const handleLogout = () => {
 
               <!-- Ações -->
               <td class="px-5 py-4 text-center">
-                <button
-                  @click="abrirModalVenda(posicao)"
-                  class="px-4 py-1.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-xs font-semibold rounded-lg transition-all cursor-pointer"
-                >
+                <button @click="abrirModalVenda(posicao)"
+                  class="px-4 py-1.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-xs font-semibold rounded-lg transition-all cursor-pointer">
                   Vender
                 </button>
               </td>
@@ -351,8 +358,10 @@ const handleLogout = () => {
 
         <!-- Table footer note -->
         <div class="flex items-center gap-3 px-5 py-3 bg-zinc-950/40 border-t border-zinc-900">
-          <svg class="h-3.5 w-3.5 text-zinc-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          <svg class="h-3.5 w-3.5 text-zinc-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span class="text-xs text-zinc-500 italic">
             Os preços são atualizados conforme o relógio da simulação.
@@ -362,17 +371,9 @@ const handleLogout = () => {
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-900 py-6 px-6 text-center text-xs text-slate-600 bg-slate-950/40">
-      &copy; 2026 BolsaSim. Todos os direitos reservados.
-    </footer>
+    <FooterComponent />
 
-    <!-- Modal Vender -->
-    <ModalVenderAcao
-      :mostrar="mostrarModalVenda"
-      :posicao="posicaoSelecionada"
-      @fechar="mostrarModalVenda = false"
-      @confirmar="handleConfirmarVenda"
-    />
+    <ModalVenderAcao :mostrar="mostrarModalVenda" :posicao="posicaoSelecionada" @fechar="mostrarModalVenda = false"
+      @confirmar="handleConfirmarVenda" />
   </div>
 </template>
