@@ -1,11 +1,18 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
+import { useToast } from '@/composables/useToast'
+import api from '@/services/api'
 
 const router = useRouter()
+const route = useRoute()
 const { user, logout } = useAuth()
+const { success: showSuccess, error: showError } = useToast()
+const emit = defineEmits(['tempo-resetado'])
 const dropdownAberto = ref(false)
+const resetandoTempo = ref(false)
+const mostrarResetarTempo = computed(() => route.name === 'mercado')
 
 const alternarDropdown = () => {
   dropdownAberto.value = !dropdownAberto.value
@@ -22,6 +29,23 @@ const handleLogout = () => {
   localStorage.clear()
   sessionStorage.clear()
   router.push('/')
+}
+
+const handleResetarTempo = async () => {
+  if (resetandoTempo.value) return
+
+  resetandoTempo.value = true
+
+  try {
+    const response = await api.post('/mercado/ResetaTempo')
+    dropdownAberto.value = false
+    showSuccess(response.data?.message || 'Horario resetado para 14:00.')
+    emit('tempo-resetado', response.data)
+  } catch (error) {
+    showError(error.response?.data?.error || 'Erro ao resetar o horario do sistema.')
+  } finally {
+    resetandoTempo.value = false
+  }
 }
 
 onMounted(() => {
@@ -72,6 +96,18 @@ onUnmounted(() => {
           v-if="dropdownAberto" 
           class="absolute right-0 top-full mt-2 w-48 bg-zinc-950 border border-zinc-800 rounded-lg p-1.5 shadow-xl flex flex-col gap-1"
         >
+          <button
+            v-if="mostrarResetarTempo"
+            @click="handleResetarTempo"
+            :disabled="resetandoTempo"
+            class="flex items-center gap-2 px-3 py-2 text-xs text-amber-300 hover:text-white hover:bg-zinc-900 rounded-md transition-colors text-left w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg class="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 005.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            {{ resetandoTempo ? 'Resetando...' : 'Resetar Horario' }}
+          </button>
+
           <router-link 
             to="/alterar-senha" 
             class="flex items-center gap-2 px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-zinc-900 rounded-md transition-colors"

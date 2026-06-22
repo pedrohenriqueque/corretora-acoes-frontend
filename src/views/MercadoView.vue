@@ -122,6 +122,12 @@ const abrirModalCompra = (acao) => {
   mostrarModalCompra.value = true
 }
 
+const handleTempoResetado = (dadosMercado) => {
+  horarioSistema.value = dadosMercado?.horaNegociacao || '14:00'
+  listaAcoes.value = dadosMercado?.acoes || []
+  celulasAlteradas.value.clear()
+}
+
 const handleConfirmarCompra = async (dadosOrdem, finalizarLoading) => {
   try {
     const response = await api.post('/ordem/comprar-acao', dadosOrdem)
@@ -152,7 +158,7 @@ const handleLogout = () => {
 <template>
   <div class="min-h-screen bg-black text-white flex flex-col justify-between font-sans antialiased relative">
 
-    <HeaderComponent></HeaderComponent>
+    <HeaderComponent @tempo-resetado="handleTempoResetado"></HeaderComponent>
 
     <div class="bg-[#050706] border-b border-zinc-900 px-6 py-3">
       <div class="max-w-6xl mx-auto flex items-center justify-between">
